@@ -1,0 +1,824 @@
+:root {
+  --ivory: #f7f5f1;
+  --beige-light: #ece7e1;
+  --beige-mid: #d9d2c7;
+  --charcoal: #3a3938;
+  --accent: #a18c74;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 6px 24px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+}
+
+/* ───────────────────────────────
+   GLOBAL SETTINGS
+────────────────────────────────*/
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  background: var(--ivory);
+  color: var(--charcoal);
+  transition: var(--transition);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* ───────────────────────────────
+   HEADER & NAVIGATION
+────────────────────────────────*/
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 48px;
+  z-index: 100;
+  transition: var(--transition);
+}
+
+header.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-soft);
+}
+
+.logo a {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--charcoal);
+  letter-spacing: 0.05em;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  font-size: 15px;
+  position: relative;
+  letter-spacing: 0.04em;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--charcoal);
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+}
+
+/* 모바일 메뉴 버튼 */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* ───────────────────────────────
+   SECTIONS BASE
+────────────────────────────────*/
+section {
+  padding: 160px 80px;
+  min-height: 100vh;
+  position: relative;
+}
+
+section h3 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+/* ───────────────────────────────
+   HERO SECTION
+────────────────────────────────*/
+/* #hero {
+  background: linear-gradient(to bottom, var(--beige-light), var(--ivory));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#hero h2 {
+  font-size: 52px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+#hero p {
+  font-size: 18px;
+  opacity: 0.8;
+} */
+
+
+/* HERO SECTION */
+#hero {
+  position: relative;
+  height: 90vh;
+  background: var(--ivory);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 7vw;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------
+   HERO SHAPES — 2-layer wave motion
+------------------------------------------------ */
+
+/* 공통 스타일 */
+.hero-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 레이어 A (기존보다 진한 곡선) */
+.shapeA {
+  top: -20%;
+  left: -15%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+    circle at 55% 40%,
+    rgba(121, 103, 84, 0.45),
+    rgba(0, 0, 0, 0) 65%
+  );
+
+  animation: waveA 10s ease-in-out infinite alternate;
+}
+
+/* 레이어 B (더 은은하고 더 큰 곡선) */
+.shapeB {
+  top: -40%;
+  left: -30%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at 45% 45%,
+    rgba(121, 103, 84, 0.25),
+    rgba(0, 0, 0, 0) 70%
+  );
+
+  animation: waveB 5s ease-in-out infinite alternate;
+}
+
+/* A 레이어 움직임 */
+@keyframes waveA {
+  0%   { transform: translate(0%, 0%) scale(1) rotate(0deg); }
+  100% { transform: translate(8%, 6%) scale(1.2) rotate(8deg); }
+}
+
+/* B 레이어 움직임(더 느리고 더 부드럽게) */
+@keyframes waveB {
+  0%   { transform: translate(-5%, -3%) scale(1.05) rotate(-5deg); }
+  100% { transform: translate(5%, 5%) scale(1.4) rotate(10deg); }
+}
+
+
+/* 텍스트 */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+#hero.show .hero-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 텍스트 스타일 */
+#hero h1 {
+  font-size: 5vw;
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--charcoal);
+}
+
+
+
+.hero-sub {
+  font-size: 1.1vw;
+  margin-top: 2vw;
+  color: rgba(0,0,0,0.55);
+}
+
+@media (max-width: 768px) {
+  #hero h1 { font-size: 13vw; }
+  .hero-sub { font-size: 4vw; }
+}
+
+
+/* -------------------------------
+   3D CHROME LINE WAVE
+-------------------------------- */
+
+/* 최상위 웨이브 묶음 */
+.chrome-waves {
+  position: absolute;
+  top: -2%;                   /* 더 높이 올라오게 */
+  left: 50%;
+  width: 200%;                /* ★ 엄청 크게 (Hero 전체 덮음) */
+  height: 90vh;
+  transform: translateX(-70%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.92;
+}
+
+/* Wave layers base */
+.wave-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* 5 Layers depth + 속도 세팅 */
+.wave-back {
+  opacity: 0.35;
+  animation: waveMoveBack 10s ease-in-out infinite alternate;
+}
+
+.wave-midback {
+  opacity: 0.45;
+  animation: waveMoveMidBack 17s ease-in-out infinite alternate;
+}
+
+.wave-middle {
+  opacity: 0.60;
+  animation: waveMoveMiddle 14s ease-in-out infinite alternate;
+}
+
+.wave-midfront {
+  opacity: 0.75;
+  animation: waveMoveMidFront 11s ease-in-out infinite alternate;
+}
+
+.wave-front {
+  opacity: 0.98;
+  animation: waveMoveFront 8s ease-in-out infinite alternate;
+}
+
+/* 개별 움직임 (앞으로 갈수록 더 역동적) */
+@keyframes waveMoveBack {
+  0%   { transform: translateX(0) translateY(0) scale(1); }
+  50%  { transform: translateX(-40px) translateY(-12px) scale(1.03); }
+  100% { transform: translateX(20px) translateY(6px) scale(1); }
+}
+
+@keyframes waveMoveMidBack {
+  0%   { transform: translateX(0) translateY(0) scale(1); }
+  50%  { transform: translateX(-55px) translateY(-18px) scale(1.05); }
+  100% { transform: translateX(28px) translateY(10px) scale(1); }
+}
+
+@keyframes waveMoveMiddle {
+  0%   { transform: translateX(0) translateY(0) scale(1); }
+  50%  { transform: translateX(-70px) translateY(-22px) scale(1.07); }
+  100% { transform: translateX(35px) translateY(12px) scale(1); }
+}
+
+@keyframes waveMoveMidFront {
+  0%   { transform: translateX(0) translateY(0) scale(1); }
+  50%  { transform: translateX(-85px) translateY(-28px) scale(1.10); }
+  100% { transform: translateX(40px) translateY(16px) scale(1); }
+}
+
+@keyframes waveMoveFront {
+  0%   { transform: translateX(0) translateY(0) scale(1); }
+  50%  { transform: translateX(-100px) translateY(-35px) scale(1.13); }
+  100% { transform: translateX(50px) translateY(20px) scale(1); }
+}
+
+
+
+
+
+
+
+
+
+
+/* ───────────────────────────────
+   ABOUT SECTION
+────────────────────────────────*/
+/* #about {
+  background: var(--ivory);
+}
+
+#about p {
+  max-width: 680px;
+  line-height: 1.8;
+  color: #4a4a4a;
+} */
+
+/* ABOUT 전체 레이아웃 정돈 */
+#about {
+  padding: 120px 0;                  /* 좌우 여백 제거 → 정렬감 확실 */
+  width: 100%;
+}
+
+/* 제목: 왼쪽 정렬 유지 */
+#about h3 {
+  text-align: left;                  /* 그대로 왼쪽 */
+  margin: 0 auto 18px;
+  width: 1200px;                     /* 제목도 3컬럼과 같은 기준선에 맞춤 */
+  max-width: 90%;
+  position: relative;
+}
+
+#about h3::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 2px;
+  background: #3a3938;
+  margin-top: 8px;
+}
+
+/* ⭐ 3컬럼: 제목과 같은 중심축 + 정확한 가운데 정렬 */
+.about-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6vw;
+padding-left: 5vw;
+  width: 1500px;                     /* 기준 너비를 고정 → 정렬감 생김 */
+  max-width: 90%;
+  margin: 32px auto 0;               /* 중앙 정렬 */
+}
+
+/* 박스 내부 왼쪽 */
+.about-box {
+  text-align: left;
+}
+
+/* 라벨 */
+.about-box .label {
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  opacity: 0.55;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.about-box p {
+  margin: 0;
+  line-height: 1.8;
+  color: #4a4a4a;
+}
+
+/* 태블릿 */
+@media (max-width: 1024px) {
+  #about h3,
+  .about-3col {
+    width: 760px;
+  }
+  .about-3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  #about h3,
+  .about-3col {
+    width: 100%;
+    max-width: 92%;
+  }
+  .about-3col {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+
+
+
+
+#swiper1 {
+  position: relative;
+  height: 100%;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-wrapper {
+  display: flex;
+  gap: 1vw;
+}
+
+.swiper-slide {
+  line-height: 300px;
+  text-align: center;
+  border-radius: 0.8vw;
+}
+
+.swiper-slide img {
+  width: 25vw;      /* ← 이미지 가로 크기 */
+  height: 70vh;     /* ← 이미지 세로 크기 */
+  border-radius: 0.8vw;
+  object-fit: cover;
+  border: 0.2vw solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+
+}
+
+
+@media (max-width: 768px) {
+  .swiper-slide img {
+    width: 40vw;      /* 25vw → 조금 넓게 보정 */
+    height: 50vh;     /* 70vh → 과도하게 길었던 부분 축소 */
+    object-fit: cover;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  .swiper-slide img {
+    width: 70vw;      /* 모바일용 적절 크기 */
+    height: 40vh;     /* 너무 세로가 길지 않게 */
+    border-radius: 2vw;
+    object-fit: cover;
+  }
+}
+
+/* ───────────────────────────────
+   SKILL SECTION
+────────────────────────────────*/
+/* ───────────────────────────────
+   SKILL SECTION
+────────────────────────────────*/
+#skill {
+  background: var(--beige-light);
+  padding: 80px;
+}
+
+#skill h3 {
+  color: var(--charcoal);
+}
+
+.skill-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.skill-item {
+
+  border: 0.2vw solid var(--border-light);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition);
+}
+
+.skill-item:hover {
+  transform: translateY(-4px);
+}
+
+/* 스킬바 영역 */
+.skill-box {
+  max-width: 680px;
+  margin: 40px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.skill-item1 .label {
+  font-size: 15px;
+  margin-bottom: 6px;
+  display: block;
+  color: #3a3938;
+}
+
+.skill-item1 .bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* 기본 상태: 길이 0, 애니메이션 없음 */
+.skill-item1 .fill {
+  width: var(--w);
+  height: 100%;
+  background: #3a3938;
+  border-radius: 10px;
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0.9;
+}
+
+/* 스크롤로 활성화될 때만 적용되는 클래스 */
+.skill-item1 .fill.animated {
+  animation: grow 1.2s ease forwards;
+}
+
+@keyframes grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+
+.icon_box{
+  display: flex;
+  justify-content: center;
+  padding-top: 3vw;
+ gap: 1.5vw;
+  & img{
+    width: 5vw;
+  }
+}
+
+/* ───────────────────────────────
+   WORK SECTION
+────────────────────────────────*/
+#work {
+  background: var(--beige-mid);
+
+  gap: 28px;
+}
+
+
+.project_div {
+
+  display: flex;
+  justify-content: center;
+  gap: 1vw;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.project {
+
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+
+
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.project:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+}
+
+.project img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project .info {
+  padding: 20px;
+  background: var(--ivory);
+  border: 1px solid #3a3938;
+  border-radius: 0.3vw;
+}
+
+.project h4 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.project p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.img_box {
+  display: flex;
+}
+
+.work4 {
+  align-items: center;
+}
+
+/* ───────────────────────────────
+   PROJECT SECTION
+────────────────────────────────*/
+#project {
+  background: var(--ivory);}
+
+
+#project .img_box2 {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3vw;
+}
+
+/* -------------------------------
+   ① 색상 무드보드 (이미지 3개)
+--------------------------------*/
+#project .color_25 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.5vw;
+  width: 100%;
+}
+
+#project .color_25 > img {
+  width: calc(33.33% - 1.5vw);   /* 3개용 비율 */
+  max-width: 360px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 0.3vw solid var(--accent);
+}
+
+
+/* -------------------------------
+   ② 일반 무드보드 라인 (이미지 4개)
+--------------------------------*/
+#project .pic_1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5vw;
+  width: 100%;
+}
+
+#project .pic_1 > img {
+  width: calc(25% - 1.5vw);      /* 4개용 비율 */
+  max-width: 300px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 0.3vw solid var(--charcoal);
+}
+
+
+/* -------------------------------
+   반응형 (태블릿 / 모바일)
+--------------------------------*/
+@media (max-width: 768px) {
+  #project .color_25 > img {
+    width: calc(50% - 1.5vw);   /* 2개 */
+  }
+  #project .pic_1 > img {
+    width: calc(50% - 1.5vw);   /* 2개 */
+  }
+}
+
+@media (max-width: 480px) {
+  #project .color_25 > img,
+  #project .pic_1 > img {
+    width: 100%;   /* 1개 */
+  }
+}
+
+
+
+/* PROJECT fade + slide + scale + stagger */
+.project-anim {
+  opacity: 0;
+  transform: translateY(18px) scale(0.93);
+  transition: opacity 0.2s ease, transform 0.35s ease;
+  will-change: opacity, transform;
+}
+
+.project-anim.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* hover 시 부드러운 확대 */
+.project-anim:hover {
+  transform: translateY(0) scale(1.03);
+  transition: transform 0.25s ease;
+}
+
+
+/* ───────────────────────────────
+   FOOTER
+────────────────────────────────*/
+footer {
+  text-align: center;
+  padding: 80px 0;
+  font-size: 14px;
+  color: #666;
+  border-top: 1px solid var(--border-light);
+}
+
+/* ───────────────────────────────
+   RESPONSIVE
+────────────────────────────────*/
+@media (max-width: 1024px) {
+  section {
+    padding: 140px 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 12px 24px;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--ivory);
+    padding: 24px;
+    position: absolute;
+    top: 60px;
+    right: 24px;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  section {
+    padding: 120px 32px;
+  }
+
+  #hero h2 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  #hero h2 {
+    font-size: 30px;
+  }
+
+  nav ul {
+    right: 16px;
+    top: 56px;
+  }
+}
